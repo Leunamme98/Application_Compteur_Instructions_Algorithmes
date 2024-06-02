@@ -59,7 +59,10 @@ def initialiserEditeur(editeur: ctk.CTkTextbox):
     """
     answer = messagebox.askquestion("Initialisation de l'éditeur", "Êtes vous certain d'initialiser l'éditeur?")
     if answer == "yes":
-        editeur.delete("1.1", "end")
+        editeur.configure(state = tk.NORMAL)
+        editeur.delete("1.0", "end")
+        editeur.insert("1.0", "~")
+        editeur.focus()
 
 def analyserCode(editeur: ctk.CTkTextbox):
     """
