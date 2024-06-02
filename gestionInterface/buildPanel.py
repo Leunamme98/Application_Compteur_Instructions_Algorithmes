@@ -12,16 +12,8 @@ from tkinter import END
 
 #importations des modules crées
 import gestionInterface.optionFonctions as of
-def saisir_pseudo_code():
-    print("Action: Saisir du pseudo code")
 
 
-
-def analyser_programme():
-    print("Action: Analyser le programme")
-
-def initialiser_editeur():
-    print("Action: Initialiser l'éditeur")
 
 
 
@@ -40,6 +32,8 @@ def buildPanel(fenetre: ctk.CTk):
             textbox.insert(f"{line}.0", "~")
         else:
             textbox.insert(current_pos, "\n~")
+        
+        
         return "break"
 
     # Fonction pour empêcher la suppression du premier tilde
@@ -69,13 +63,13 @@ def buildPanel(fenetre: ctk.CTk):
             
             # Exécuter l'action appropriée en fonction de l'élément sélectionné
             if item_text == "1- Saisir du pseudo code":
-                saisir_pseudo_code()
+                of.saisirPseudoCode(textbox)
             elif item_text == "2- Importer un fichier":
                 of.importerFichier(textbox)
             elif item_text == "3- Analyser le programme":
-                analyser_programme()
+                of.analyserCode(textbox)
             elif item_text == "4- Initialiser l'éditeur":
-                initialiser_editeur()
+                of.initialiserEditeur(textbox)
 
 
 
@@ -94,7 +88,7 @@ def buildPanel(fenetre: ctk.CTk):
     editeur_frame = ctk.CTkFrame(panel, fg_color="#eee", corner_radius=0,border_color="#000", border_width=1)
     editeur_frame.pack(fill="both", padx=10, pady=10)
     
-    textbox = ctk.CTkTextbox(editeur_frame, wrap="none",height=450, font=("Arial", 15,'bold'))
+    textbox = ctk.CTkTextbox(editeur_frame, wrap="none",height=450, font=("Arial", 15,'bold'), state= "disabled")
     textbox.pack(side="top", fill="both", expand=True, padx=5, pady=5)
     textbox.bind("<Return>", add_tilde)
     textbox.bind("<BackSpace>", prevent_tilde_deletion)
