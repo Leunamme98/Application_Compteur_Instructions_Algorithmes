@@ -9,6 +9,9 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox, filedialog
 
+#importation des modules crées
+import LecteurFichier as lf
+
 def importerFichier(editeur: ctk.CTkTextbox):
     """
     Cette fonction permet de charger le pseudo code depuis son emplacement dans le mini éditeur.
@@ -19,20 +22,27 @@ def importerFichier(editeur: ctk.CTkTextbox):
     liste_des_types_de_fichier = [("Fichiers texte", "*.txt"), ("Fichiers PDF", "*.pdf"), ("Fichiers Word", "*.docx")]
 
     # Ouvrir une boîte de dialogue pour sélectionner un fichier
-    fichier = filedialog.askopenfile(filetypes=liste_des_types_de_fichier)
-
+    fichier = filedialog.askopenfilename(filetypes=liste_des_types_de_fichier)
+    
     # Vérifier si un fichier a été sélectionné
     if fichier:
-        # Lire le contenu du fichier
-        contenu = fichier.read()
+    
         # Afficher le contenu dans l'éditeur
         editeur.configure(state= tk.NORMAL)
-        editeur.delete("1.1", "end")
-        editeur.insert("end", contenu)
-        editeur.configure(state = "disabled")
+        editeur.delete("1.0", "end")
+
+        liste_ligne, succes = lf.lireFichier(fichier)
+        
+        if succes and liste_ligne:
+            for ligne in liste_ligne:
+                
+                editeur.insert("end", "~"+ligne)
+            editeur.configure(state = "disabled")
+        else:
+            messagebox.showwarning("Importation de code", "Le fichier choisi est vide!")
     else:
         # Afficher un message si aucun fichier n'a été sélectionné
-        messagebox.showwarning("Aucun fichier sélectionné", "Aucun fichier n'a été sélectionné.")
+        messagebox.showwarning("Importation de code", "Aucun fichier n'a été sélectionné.")
 
 def saisirPseudoCode(editeur: ctk.CTkTextbox):
     """
