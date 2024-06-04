@@ -21,7 +21,6 @@ Exceptions:
 
 # Import des modules nécessaires pour le traitement des fichiers texte, PDF et Word
 from typing import List, TextIO, Tuple  # Module pour les annotations de type
-import os  # Module pour la gestion des chemins de fichiers
 import PyPDF2  # Module pour la manipulation des fichiers PDF
 from docx import Document  # Module pour la manipulation des fichiers Word
 from pathlib import Path  # Module pour la manipulation des chemins de fichiers
@@ -41,7 +40,7 @@ def ouvrirFichierTxt(cheminFichier: str) -> TextIO:
         # Lire le contenu du fichier en mode binaire
         with open(cheminFichier, 'rb') as fichier:
             contenu_bytes = fichier.read()
-        
+
         # Détecter l'encodage probable
         resultat = chardet.detect(contenu_bytes)
         encodage = resultat['encoding']
