@@ -11,6 +11,7 @@ from tkinter import messagebox, filedialog
 
 #importation des modules crées
 import LecteurFichier as lf
+import compteurDoperation as co
 
 def importerFichier(editeur: ctk.CTkTextbox):
     """
@@ -36,7 +37,7 @@ def importerFichier(editeur: ctk.CTkTextbox):
         if succes and liste_ligne:
             for ligne in liste_ligne:
                 
-                editeur.insert("end", "~"+ligne)
+                editeur.insert("end", ligne)
             editeur.configure(state = "disabled")
         else:
             messagebox.showwarning("Importation de code", "Le fichier choisi est vide!")
@@ -52,12 +53,7 @@ def saisirPseudoCode(editeur: ctk.CTkTextbox):
     editeur.configure(state = "disabled")
     editeur.configure(state = tk.NORMAL)
     
-    code = editeur.get("1.0", "end-1c")
     
-    if len(code) == 0:
-        editeur.insert("1.0", "~")
-    elif len(code)>1 :
-        editeur.insert("end","\n~")
     editeur.focus()
 
 
@@ -71,7 +67,6 @@ def initialiserEditeur(editeur: ctk.CTkTextbox):
     if answer == "yes":
         editeur.configure(state = tk.NORMAL)
         editeur.delete("1.0", "end")
-        editeur.insert("1.0", "~")
         editeur.focus()
 
 def analyserCode(editeur: ctk.CTkTextbox):
@@ -84,13 +79,45 @@ def analyserCode(editeur: ctk.CTkTextbox):
 
     code = editeur.get("1.0", "end-1c")
 
-    if len(code)==0 or len(code)==1:
+    if len(code)==0:
         messagebox.showwarning("Analyse du code", "Désolé! vous n'avez aucun code à analyser.")
     else:
-        code_in_liste = code.split("\n")
-        les_lignes_de_codes = list()
 
-        for ligne in code_in_liste:
-            les_lignes_de_codes.append(ligne[1:])
-            
+        reponse , message = co.compteurOperation(code)
+
+        
+    
+        if reponse:
+            #Affichage du résultat
+            affichage = ctk.CTkToplevel()
+            affichage.title("Résultat de l'analyse")
+            affichage.geometry("700x200")
+
+            #Titre de la fenetre
+            ctk.CTkLabel(affichage, text="RESULTAT DE L'ANALYSE", font=("Garamo", 14)).pack(fill="both", padx=10, pady=10)
+
+            frame = ctk.CTkFrame(affichage, border_width=1, corner_radius=2)
+            frame.pack(fill="both", padx=10, pady=10)
+
+
+            message = "Nombre d'opération effectué: "+ str(message)
+            ctk.CTkLabel(frame, text=message, font=("Garamone", 14)).pack(fill="both", padx=10, pady=10)
+
+            boutonFrame=ctk.CTkFrame(affichage, border_width=0, corner_radius=0,fg_color="transparent")
+            boutonFrame.pack(fill="both", padx=10, pady=10)
+
+            btn=ctk.CTkButton(boutonFrame, text="Fermer", font=("Garamone", 13),height=40, hover_color="#555" , fg_color="black",
+                               border_width=1, command= lambda: affichage.destroy())
+            btn.pack(side="right", padx=0, pady=5)
+
+            affichage.mainloop()
+        else:
+
+            message = "Erreur d'analyse: "+ message
+            messagebox.showwarning("Erreur", message)
+
+        
+        
+
+
         

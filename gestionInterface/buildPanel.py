@@ -9,6 +9,8 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
 from tkinter import END
+import os
+import signal
 
 #importations des modules crées
 import gestionInterface.optionFonctions as of
@@ -23,35 +25,9 @@ def buildPanel(fenetre: ctk.CTk):
     @paramètre: fenetre (fenetre dans laquelle le panneau sera construit)
     """
        # Fonction pour ajouter un tilde au début de chaque nouvelle ligne
-    def add_tilde(event):
-        # Obtenir la position actuelle du curseur
-        current_pos = textbox.index("insert")
-        line, column = map(int, current_pos.split('.'))
-
-        if column == 0:
-            textbox.insert(f"{line}.0", "~")
-        else:
-            textbox.insert(current_pos, "\n~")
-        
-        
-        return "break"
 
     # Fonction pour empêcher la suppression du premier tilde
-    def prevent_tilde_deletion(event):
-        current_pos = textbox.index("insert")
-        line, column = map(int, current_pos.split('.'))
-        
-        # Empêcher la suppression du premier tilde
-        if line == 1 and column == 1:
-            return "break"
-        
-        # Si le curseur est après un tilde, et que l'on supprime, on passe à la ligne précédente
-        if column == 1 and line > 1:
-            textbox.delete(f"{line}.0", f"{line}.1")
-            textbox.mark_set("insert", f"{line-1}.end")
-            return "break"
-        
-    
+   
     def on_item_click(event):
     # Vérifier s'il y a au moins un élément sélectionné dans le TreeView
         
@@ -80,7 +56,7 @@ def buildPanel(fenetre: ctk.CTk):
     titre_frame = ctk.CTkFrame(panel, fg_color="#eee", height=10, corner_radius=10)
     titre_frame.pack(fill="both",padx=15, pady=10)
 
-    titre = ctk.CTkLabel(titre_frame, text="Mini éditeur de pseudo code", height=10, font=("Arial", 15))
+    titre = ctk.CTkLabel(titre_frame, text="Mini éditeur de code", height=10, font=("Arial", 15))
     titre.pack(side="left")
 
 
@@ -88,12 +64,9 @@ def buildPanel(fenetre: ctk.CTk):
     editeur_frame = ctk.CTkFrame(panel, fg_color="#eee", corner_radius=0,border_color="#000", border_width=1)
     editeur_frame.pack(fill="both", padx=10, pady=10)
     
-    textbox = ctk.CTkTextbox(editeur_frame, wrap="none",height=450, font=("Arial", 15,'bold'), state= "disabled")
+    textbox = ctk.CTkTextbox(editeur_frame, wrap="none",height=350, font=("Garamone", 18), state= "disabled")
     textbox.pack(side="top", fill="both", expand=True, padx=5, pady=5)
-    textbox.bind("<Return>", add_tilde)
-    textbox.bind("<BackSpace>", prevent_tilde_deletion)
-    textbox.bind("<Delete>", prevent_tilde_deletion)
-    textbox.insert("1.0", "~")
+    
     
 
     #titre pour les options
@@ -102,6 +75,8 @@ def buildPanel(fenetre: ctk.CTk):
 
     option_title = ctk.CTkLabel(option_title_frame, text="Les options", height=10, font=("Arial", 15))
     option_title.pack(side="left")
+
+    
 
     # Ajouter le panneau principal à la fenêtre
     option_frame = ctk.CTkFrame(panel, fg_color="#eee", corner_radius=0,border_color="#000", border_width=1)
@@ -130,3 +105,4 @@ def buildPanel(fenetre: ctk.CTk):
 
 
     panel.pack(fill="both", expand=True)
+

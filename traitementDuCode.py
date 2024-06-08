@@ -30,7 +30,8 @@ def traitementDuCode(code: str) -> str:
         ligne = new_code[i]
         
         #Ajout après les lignes qui ne contient pas de boucle while, for de if, elif, else
-        if not ( ('while ' in ligne) or ('for ' in ligne) or ('if ' in ligne) or ('elif ' in ligne) or ('else ' in ligne)):
+        if not ( ('while ' in ligne) or ('for ' in ligne) or ('if ' in ligne) or ('elif ' in ligne) or ('else ' in ligne) or\
+                ('with ' in ligne) or ('def ' in ligne) or ('match ' in ligne) or ('case ' in ligne)):
             
             code_compteur.append(ligne)                   #ajout des ligne sans insctruction (boucle)
             
