@@ -8,9 +8,7 @@
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
-from tkinter import END
-import os
-import signal
+
 
 #importations des modules crées
 import gestionInterface.optionFonctions as of
@@ -43,9 +41,9 @@ def buildPanel(fenetre: ctk.CTk):
             elif item_text == "2- Importer un fichier":
                 of.importerFichier(textbox)
             elif item_text == "3- Analyser le programme":
-                of.analyserCode(textbox)
+                of.analyserCode(textbox, resultat)
             elif item_text == "4- Initialiser l'éditeur":
-                of.initialiserEditeur(textbox)
+                of.initialiserEditeur(textbox, resultat)
 
 
 
@@ -67,7 +65,8 @@ def buildPanel(fenetre: ctk.CTk):
     textbox = ctk.CTkTextbox(editeur_frame, wrap="none",height=350, font=("Garamone", 18), state= "disabled")
     textbox.pack(side="top", fill="both", expand=True, padx=5, pady=5)
     
-    
+    resultat = ctk.CTkLabel(editeur_frame, text="Resultat de l'analyse",height=50, font=("Garamone", 18), fg_color="#000", text_color="#fff")
+    resultat.pack(fill="both", padx=0, pady=0)
 
     #titre pour les options
     option_title_frame = ctk.CTkFrame(panel, fg_color="#eee", height=10, corner_radius=10)
@@ -89,7 +88,7 @@ def buildPanel(fenetre: ctk.CTk):
 
     # Configurer l'épaisseur des lignes
     style = ttk.Style()
-    style.configure("Treeview", rowheight=35, font=("Arial", 13), fieldbackground="#FFFFFF")
+    style.configure("Treeview", rowheight=35, font=("Garomone", 15), fieldbackground="#FFFFFF")
     
     # Liste des actions
     actions = ["1- Saisir du pseudo code", "2- Importer un fichier", "3- Analyser le programme", "4- Initialiser l'éditeur"]

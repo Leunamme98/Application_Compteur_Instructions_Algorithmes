@@ -33,11 +33,11 @@ def buildMenu(fenetre : ctk.CTk):
                                  hover_color="#555",border_width=1, command= lambda : about())
 
     # Placer les boutons côte à côte
-    bouton_quitter.pack(side="left", padx=5, pady=5)
-    bouton_about.pack(side="left", padx=5, pady=5)
+    bouton_quitter.pack(side="right", padx=5, pady=5)
+    bouton_about.pack(side="right", padx=5, pady=5)
 
     # Ajouter le frame des boutons au menu
-    bouton_frame.pack(side="left", padx=5, pady=5)
+    bouton_frame.pack(side="right", padx=5, pady=5)
 
     menu.pack(fill="both")
     

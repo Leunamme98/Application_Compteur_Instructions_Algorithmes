@@ -57,7 +57,7 @@ def saisirPseudoCode(editeur: ctk.CTkTextbox):
     editeur.focus()
 
 
-def initialiserEditeur(editeur: ctk.CTkTextbox):
+def initialiserEditeur(editeur: ctk.CTkTextbox, affichage: ctk.CTkLabel):
     """
     Cette fonction permet d'initialiser l'éditeur en éffaçant toutes les lignes écrites
     @param: editeur (la zone d'édition de code)
@@ -68,8 +68,9 @@ def initialiserEditeur(editeur: ctk.CTkTextbox):
         editeur.configure(state = tk.NORMAL)
         editeur.delete("1.0", "end")
         editeur.focus()
+        affichage.configure(text="Résultat de l'analyse")
 
-def analyserCode(editeur: ctk.CTkTextbox):
+def analyserCode(editeur: ctk.CTkTextbox, affichage: ctk.CTkLabel):
     """
     Cette fonction permet de récuéper le pseudo code de  l'éditeur et passeur à un analyseur. 
     Après l'analyseur, on affichera le resultat sur le autre fenetre
@@ -89,32 +90,15 @@ def analyserCode(editeur: ctk.CTkTextbox):
     
         if reponse:
             #Affichage du résultat
-            affichage = ctk.CTkToplevel()
-            affichage.title("Résultat de l'analyse")
-            affichage.geometry("700x200")
-
-            #Titre de la fenetre
-            ctk.CTkLabel(affichage, text="RESULTAT DE L'ANALYSE", font=("Garamo", 14)).pack(fill="both", padx=10, pady=10)
-
-            frame = ctk.CTkFrame(affichage, border_width=1, corner_radius=2)
-            frame.pack(fill="both", padx=10, pady=10)
-
+            
 
             message = "Nombre d'opération effectué: "+ str(message)
-            ctk.CTkLabel(frame, text=message, font=("Garamone", 14)).pack(fill="both", padx=10, pady=10)
-
-            boutonFrame=ctk.CTkFrame(affichage, border_width=0, corner_radius=0,fg_color="transparent")
-            boutonFrame.pack(fill="both", padx=10, pady=10)
-
-            btn=ctk.CTkButton(boutonFrame, text="Fermer", font=("Garamone", 13),height=40, hover_color="#555" , fg_color="black",
-                               border_width=1, command= lambda: affichage.destroy())
-            btn.pack(side="right", padx=0, pady=5)
-
-            affichage.mainloop()
+            affichage.configure(text=message)
         else:
 
-            message = "Erreur d'analyse: "+ message
-            messagebox.showwarning("Erreur", message)
+            
+            affichage.configure(text=message)
+           
 
         
         
