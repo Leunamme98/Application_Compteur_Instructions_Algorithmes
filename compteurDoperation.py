@@ -1,24 +1,31 @@
 """
 Module: compteurDoperation
 
-Description
-Ce module fournie une fonctionnalité pour compter le nombre d'operation dans un code 
+Description:
+Ce module fournit une fonctionnalité pour compter le nombre d'opérations dans un code.
 
 Fonctions:
-lire_contenu_fichier(chemin_fichier:str) str: Fonction permettant de lire dans le fichier de stockage du résulat de comptage
-compteurOperation(code: str) bool, int or str: Fonction permettant de compter le nomre d'operation dans un code
+- lire_contenu_fichier(chemin_fichier: str) -> int: 
+    Fonction permettant de lire dans le fichier de stockage du résultat de comptage.
+
+- compteurOperation(code: str) -> Tuple[bool, Union[int, str]]: 
+    Fonction permettant de compter le nombre d'opérations dans un code.
 """
+
 #importation des modules crées
 import traitementDuCode as tc
 import analyseurPseudoCode as apc
-
+from typing import Tuple, Union
 
 def lire_contenu_fichier(chemin_fichier: str) -> int:
     """
-    La fonction permet de lire le contenu d'un fichier et renvoie le resulat sous forme d'entier
-    @param: chemin relatif du fichier
-    @return: le nombre lu dans le fichier
+    La fonction permet de lire le contenu d'un fichier et renvoie le résultat sous forme d'entier.
     
+    Args:
+        chemin_fichier (str): Chemin relatif du fichier.
+        
+    Returns:
+        int: Le nombre lu dans le fichier.
     """
 
     with open(chemin_fichier, 'r') as fichier:
@@ -26,12 +33,15 @@ def lire_contenu_fichier(chemin_fichier: str) -> int:
     return int(contenu)
 
 
-
-def compteurOperation(code: str):
+def compteurOperation(code: str) -> Tuple[bool, Union[int, str]]:
     """
-    La fonction permet de compter le nombre d'opérations dans le code
-    @param: le code ecrite en python
-    @return: le nombre d'operation
+    La fonction permet de compter le nombre d'opérations dans le code.
+    
+    Args:
+        code (str): Le code écrit en Python.
+        
+    Returns:
+        Tuple[bool, Union[int, str]]: Un tuple contenant un booléen indiquant le succès de l'opération et le nombre d'opérations ou un message d'erreur.
     """
     reponse , message = apc.analyser_et_executer(code)
     code = tc.traitementDuCode(code)
@@ -47,27 +57,18 @@ chemin = "nombreOperation.txt"
 ecrire_dans_fichier(chemin, operation)\n
 """
 
-    
     if reponse:
         code = code_pour_ecrire+"operation = 0\n"+code+fin
         try:
             exec(code)
 
-        # recuperation du nombre d'operation
+            # recuperation du nombre d'operation
             chemin = "nombreOperation.txt"
             contenu = lire_contenu_fichier(chemin)
-        
-        
+
             return reponse, contenu
         except IndentationError as err_message:
             message = f"Erreur d'indentation : {err_message}"
-            
             return False, message
-
-    else :
-
+    else:
         return reponse, message
-
-
-
-
